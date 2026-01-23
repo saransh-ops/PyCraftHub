@@ -1,0 +1,12 @@
+def show_menu():
+    print("=== Minecraft Hosting CLI ===")
+    print("1. Create server")
+    print("2. Configure server")
+    print("3. Start server")
+    print("4. List servers")
+    print("5. Exit")
+    print("6. Server Status")
+    print("7. Stop server")
+    print("8. Restart server")
+    print("9. Delete server")
+    print("10. Edit Server details")
