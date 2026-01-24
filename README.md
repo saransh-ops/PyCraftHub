@@ -46,5 +46,7 @@ that helps you create, manage, and run servers locally with ease.
 
 double clck the PyCraftHub launcher.bat
 
+\## for any query please visit https://discord.gg/VUwgTcP3gq
+
 
 
