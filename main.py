@@ -1,7 +1,7 @@
 from core.server_manager import (
     create_server, edit_server, start_server,
     stop_server, restart_server, delete_server,
-    list_servers, load_data
+    list_servers, load_data, list_installed_mods
 )
 
 # ---- Splash function ----
@@ -44,7 +44,9 @@ def main_menu():
         print("5. Restart Server")
         print("6. Delete Server")
         print("7. List Servers")
-        print("8. Exit")
+        print("8. List mods in a server")
+        print("9. Exit")
+        
 
         choice = input("> ").strip()
 
@@ -71,9 +73,13 @@ def main_menu():
             elif choice=="6": delete_server(server_name)
 
         elif choice=="7": list_servers()
-        elif choice=="8":
+        elif choice=="9":
             print("Exiting...")
             break
+        elif choice == "8":
+            server = input("Server name: ").strip()
+            list_installed_mods(server)
+
         else:
             print("❌ Invalid option")
 

@@ -1,0 +1,66 @@
+PyCraftHub - Changelog
+=====================
+
+Version 2.0.0
+Release: v2 Major Update
+
+🔥 Major Features
+-----------------
+- Added full Fabric server support alongside Paper and Vanilla
+- Integrated Modrinth API for version-aware mod & plugin downloads
+- Introduced interactive mod/plugin installer with multi-select support
+- Added dependency-aware installation (prevents duplicate installs)
+- Automatic detection of installed mods/plugins
+- Fabric API installer with smart dependency skipping
+- Support for recommended Fabric mods (Sodium, Lithium, FerriteCore, Simple Voice Chat)
+- Support for recommended Paper plugins (ViaVersion, ViaBackwards, ViaRewind, EssentialsX, SkinRestorer, Chunky)
+
+🚀 Server Management Improvements
+---------------------------------
+- Improved server creation workflow with clearer prompts
+- Fixed servers not saving correctly to servers.json
+- Reliable port allocation and persistence
+- Hardcore mode support with proper difficulty handling
+- Better folder initialization for plugins and mods
+- Fabric servers now correctly create and manage /mods directory
+
+🧠 Smart Install System
+-----------------------
+- Version-based downloads (no more incompatible jars)
+- Loader-aware installs (Paper vs Fabric handled automatically)
+- Prevents installing Fabric mods on Paper servers and vice versa
+- Avoids re-downloading already installed dependencies
+- Cleaner error messages when no compatible version exists
+
+🛠 Bug Fixes
+------------
+- Fixed "server config not found" issues
+- Fixed NameError and UnboundLocalError crashes
+- Fixed corrupted JAR downloads caused by wrong endpoints
+- Fixed recommended plugins not installing on Paper servers
+- Fixed missing server entries in servers.json
+- Fixed Fabric server jar download failures
+- Fixed syntax errors and invalid config writes
+
+📂 Code & Structure
+-------------------
+- Refactored server_manager.py for clarity and stability
+- Unified mod/plugin download logic via Modrinth
+- Improved error handling and logging
+- Cleaned up duplicate download functions
+- Better separation of Paper and Fabric logic paths
+
+⚠ Known Limitations
+-------------------
+- Fabric Geyser support not included (user-managed if needed)
+- Server stop control still handled via in-console `stop` command
+- No GUI (CLI-only by design)
+
+📌 Notes
+--------
+- Java 17+ required for newer Minecraft versions
+- Internet connection required for server and mod downloads
+- Playit.gg still recommended for external access
+
+──────────────────────────────────
+End of Changelog

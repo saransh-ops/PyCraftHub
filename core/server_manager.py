@@ -234,19 +234,13 @@ def install_fabric_api(version, mods_dir):
 
 
 
-def download_modrinth_plugin(
-    project_slug,
-    version,
-    loader,
-    plugins_dir
-):
-    os.makedirs(plugins_dir, exist_ok=True)
+def download_modrinth_plugin(project_slug, mc_version, loader, target_dir):
+    os.makedirs(target_dir, exist_ok=True)
 
     api_url = (
-        "https://api.modrinth.com/v2/project/"
-        f"{project_slug}/version"
+        f"https://api.modrinth.com/v2/project/{project_slug}/version"
         f"?loaders=[\"{loader}\"]"
-        f"&game_versions=[\"{version}\"]"
+        f"&game_versions=[\"{mc_version}\"]"
     )
 
     r = requests.get(api_url, timeout=15)
@@ -254,24 +248,262 @@ def download_modrinth_plugin(
         print(f"❌ No compatible version found for {project_slug}")
         return
 
-    version = r.json()[0]
-    file = version["files"][0]
+    version_data = r.json()[0]
+    file = version_data["files"][0]
 
-    download_url = file["url"]
     filename = file["filename"]
+    download_url = file["url"]
 
-    path = os.path.join(plugins_dir, filename)
+    if is_already_installed(filename, target_dir):
+        print(f"✔ {filename} already installed, skipping")
+        return
 
+    # ---------------- DOWNLOAD MAIN MOD ----------------
     print(f"⬇ Downloading {filename}...")
     with requests.get(download_url, stream=True) as d:
         d.raise_for_status()
-        with open(path, "wb") as f:
+        with open(os.path.join(target_dir, filename), "wb") as f:
             for chunk in d.iter_content(8192):
                 f.write(chunk)
 
     print(f"✔ Installed {filename}")
 
+    # ---------------- HANDLE DEPENDENCIES ----------------
+    deps = version_data.get("dependencies", [])
 
+    for dep in deps:
+        if dep["dependency_type"] != "required":
+            continue
+
+        dep_id = dep.get("project_id")
+        if not dep_id:
+            continue
+
+        # Skip Fabric API (you already handle it separately)
+        if dep_id.lower() == "fabric-api":
+            print("ℹ Fabric API dependency detected (skipped)")
+            continue
+
+        print(f"🔗 Required dependency detected: {dep_id}")
+
+        dep_api = f"https://api.modrinth.com/v2/project/{dep_id}"
+        dep_info = requests.get(dep_api).json()
+        dep_slug = dep_info["slug"]
+
+        download_modrinth_plugin(
+            dep_slug,
+            mc_version,
+            loader,
+            target_dir
+        )
+
+
+
+def get_installed_files(target_dir):
+    if not os.path.exists(target_dir):
+        return []
+    return [f.lower() for f in os.listdir(target_dir) if f.endswith(".jar")]
+
+
+def is_already_installed(filename, target_dir):
+    return filename.lower() in get_installed_files(target_dir)
+
+
+def list_installed_mods(server_name):
+    data = load_data()
+    server = data.get(server_name)
+
+    if not server:
+        print("❌ Server not found")
+        return
+
+    if server["type"] == "paper":
+        target_dir = f"servers/{server_name}/plugins"
+    elif server["type"] == "fabric":
+        target_dir = f"servers/{server_name}/mods"
+    else:
+        print("⚠ Vanilla has no mods/plugins")
+        return
+
+    files = get_installed_files(target_dir)
+
+    if not files:
+        print("❌ No mods/plugins installed")
+        return
+
+    print("\n📦 Installed mods/plugins:")
+    for f in files:
+        print(f"- {f}")
+
+
+def remove_mod_plugin(server_name):
+    data = load_data()
+    server = data.get(server_name)
+
+    if server["type"] == "paper":
+        target_dir = f"servers/{server_name}/plugins"
+    elif server["type"] == "fabric":
+        target_dir = f"servers/{server_name}/mods"
+    else:
+        return
+
+    files = get_installed_files(target_dir)
+    if not files:
+        print("❌ Nothing to remove")
+        return
+
+    print("\nSelect mod/plugin to remove:")
+    for i, f in enumerate(files, 1):
+        print(f"{i}. {f}")
+
+    choice = input("> ").strip()
+    if not choice.isdigit():
+        return
+
+    index = int(choice) - 1
+    if index >= len(files):
+        return
+
+    os.remove(os.path.join(target_dir, files[index]))
+    print(f"🗑 Removed {files[index]}")
+
+
+def update_mod_plugin(server_name):
+    data = load_data()
+    server = data.get(server_name)
+
+    if server["type"] == "paper":
+        target_dir = f"servers/{server_name}/plugins"
+        loader = "paper"
+    elif server["type"] == "fabric":
+        target_dir = f"servers/{server_name}/mods"
+        loader = "fabric"
+    else:
+        return
+
+    files = get_installed_files(target_dir)
+    if not files:
+        print("❌ No mods/plugins installed")
+        return
+
+    print("\nSelect mod/plugin to update:")
+    for i, f in enumerate(files, 1):
+        print(f"{i}. {f}")
+
+    choice = input("> ").strip()
+    if not choice.isdigit():
+        return
+
+    index = int(choice) - 1
+    if index >= len(files):
+        return
+
+    filename = files[index]
+    slug_guess = filename.split("-")[0]
+
+    os.remove(os.path.join(target_dir, filename))
+    print("🔁 Updating...")
+
+    download_modrinth_plugin(
+        slug_guess,
+        server["version"],
+        loader,
+        target_dir
+    )
+
+
+def search_modrinth(query, loader, mc_version):
+    url = "https://api.modrinth.com/v2/search"
+    params = {
+        "query": query,
+        "facets": (
+            f'[["categories:{loader}"],["versions:{mc_version}"]]'
+        ),
+        "limit": 7
+    }
+
+    r = requests.get(url, params=params, timeout=15)
+    if r.status_code != 200:
+        return []
+
+    return r.json().get("hits", [])
+
+
+def mod_plugin_search_menu(server_name):
+    data = load_data()
+    server = data.get(server_name)
+
+    if not server:
+        print("❌ Server not found")
+        return
+
+    loader = server["type"]      # paper / fabric
+    mc_version = server["version"]
+
+    if loader == "paper":
+        target_dir = f"servers/{server_name}/plugins"
+    elif loader == "fabric":
+        target_dir = f"servers/{server_name}/mods"
+    else:
+        print("⚠ Mods/plugins not supported on Vanilla")
+        return
+
+    while True:
+        print("\n🔹 Mod / Plugin Search Menu")
+        print("1. Search & install")
+        print("2. Exit")
+
+        main_choice = input("> ").strip()
+
+        if main_choice == "2":
+            print("✔ Finished installing mods/plugins")
+            return
+
+        if main_choice != "1":
+            print("❌ Invalid option")
+            continue
+
+        query = input("\n🔍 Enter mod/plugin name: ").strip()
+        if not query:
+            continue
+
+        results = search_modrinth(query, loader, mc_version)
+
+        if not results:
+            print("❌ No compatible results found")
+            continue
+
+        print("\nResults:")
+        for i, r in enumerate(results, 1):
+            print(f"{i}. {r['title']}")
+
+        choice = input("\nSelect number (0 to cancel): ").strip()
+        if not choice.isdigit():
+            continue
+
+        choice = int(choice)
+        if choice == 0:
+            continue
+
+        index = choice - 1
+        if index >= len(results):
+            print("❌ Invalid choice")
+            continue
+
+        slug = results[index]["slug"]
+
+        download_modrinth_plugin(
+            slug,
+            mc_version,
+            loader,
+            target_dir
+        )
+
+        # 🔁 ASK AGAIN
+        again = input("\nInstall another mod/plugin? (y/n): ").strip().lower()
+        if again != "y":
+            print("✔ Finished installing mods/plugins")
+            return
 
 
 
@@ -398,6 +630,11 @@ def create_server():
     # ---------------- DONE ----------------
     print(f"\n✔ {jar_type.upper()} server '{name}' created successfully!")
     print(f"🖥 Local join address: {get_local_ip()}:{port}")
+
+    if jar_type in ["paper", "fabric"]:
+        if input("Search & install mods/plugins now? (y/n): ").lower() == "y":
+            mod_plugin_search_menu(name)
+
 
 
 RECOMMENDED_PLUGINS = {
