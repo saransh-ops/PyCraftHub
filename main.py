@@ -25,8 +25,9 @@ $$ |      \$$$$$$$ |\$$$$$$  |$$ |     \$$$$$$$ |$$ |        \$$$$  |$$ |  $$ |\
 
                     PyCraftHub
     Python Minecraft Server Management CLI
-             Version 1.0 | by Saransh
+             Version 2.0 | by Saransh
              Made solely using Python
+             Check changelogs for more info
     """)
 
 # ---- Call splash at start ----
