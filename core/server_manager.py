@@ -832,181 +832,203 @@ def download_fabric(version, server_path):
     print("✔ Fabric server downloaded")
 
 
+def list_files(folder, endswith=".jar"):
+    if not os.path.exists(folder):
+        return []
+    return [f for f in os.listdir(folder) if f.endswith(endswith)]
+
+
+def remove_file(folder, filename):
+    path = os.path.join(folder, filename)
+    if os.path.exists(path):
+        os.remove(path)
+        print(f"🗑 Removed {filename}")
+    else:
+        print("❌ File not found")
+
+def manage_paper_plugins(server_name, mc_version):
+    plugins_dir = f"servers/{server_name}/plugins"
+
+    while True:
+        print("\n--- Plugins (Paper) ---")
+        print("1. Install Recommended Plugins")
+        print("2. Search & Install Plugin")
+        print("3. List Installed Plugins")
+        print("4. Remove Plugin")
+        print("5. Back")
+
+        c = input("> ").strip()
+
+        if c == "1":
+            install_recommended_plugins(server_name, mc_version)
+
+        elif c == "2":
+            mod_plugin_search_menu(server_name)
+
+        elif c == "3":
+            plugins = list_files(plugins_dir)
+            if not plugins:
+                print("❌ No plugins installed")
+            else:
+                print("\nInstalled Plugins:")
+                for p in plugins:
+                    print("-", p)
+
+        elif c == "4":
+            plugins = list_files(plugins_dir)
+            if not plugins:
+                print("❌ No plugins to remove")
+                continue
+            for i, p in enumerate(plugins, 1):
+                print(f"{i}. {p}")
+
+            idx = input("Select plugin numbers (comma-separated): ").strip()
+            if not idx:
+                continue
+
+            indexes = []
+            for x in idx.split(","):
+                x = x.strip()
+                if x.isdigit():
+                    i = int(x) - 1
+                    if 0 <= i < len(plugins):
+                        indexes.append(i)
+
+            for i in sorted(set(indexes), reverse=True):
+                remove_file(plugins_dir, plugins[i])
+
+
+        elif c == "5":
+            return
+
+
+def manage_fabric_mods(server_name, mc_version):
+    mods_dir = f"servers/{server_name}/mods"
+
+    while True:
+        print("\n--- Mods (Fabric) ---")
+        print("1. Install Recommended Mods")
+        print("2. Search & Install Mod")
+        print("3. List Installed Mods")
+        print("4. Remove Mod")
+        print("5. Back")
+
+        c = input("> ").strip()
+
+        if c == "1":
+            install_recommended_fabric_mods(server_name, mc_version)
+
+        elif c == "2":
+            mod_plugin_search_menu(server_name)
+
+        elif c == "3":
+            mods = list_files(mods_dir)
+            if not mods:
+                print("❌ No mods installed")
+            else:
+                print("\nInstalled Mods:")
+                for m in mods:
+                    print("-", m)
+
+        elif c == "4":
+            mods = list_files(mods_dir)
+            if not mods:
+                print("❌ No mods to remove")
+                continue
+            for i, m in enumerate(mods, 1):
+                print(f"{i}. {m}")
+
+            idx = input("Select mod numbers (comma-separated): ").strip()
+            if not idx:
+                continue
+
+            indexes = []
+            for x in idx.split(","):
+                x = x.strip()
+                if x.isdigit():
+                    i = int(x) - 1
+                    if 0 <= i < len(mods):
+                        indexes.append(i)
+            for i in sorted(set(indexes), reverse=True):
+                remove_file(mods_dir, mods[i])
+
+
+        elif c == "5":
+            return
 
 
 
 def edit_server():
-    server_name = input("Enter server name to edit: ").strip()
-    server_path = Path("servers") / server_name
-    config_path = server_path / "server.json"
+    name = input("Enter server name to edit: ").strip()
+    data = load_data()
 
-    if not server_path.exists() or not config_path.exists():
+    if name not in data:
         print("❌ Server not found")
         return
 
-    with open(config_path, "r") as f:
-        server = json.load(f)
+    server = data[name]
 
-    # =========================
-    # SAVE OLD STATES
-    # =========================
-    old_jar_type = server.get("jar_type")
-    old_version = server.get("version")
-    old_difficulty = server.get("difficulty")
+    while True:
+        print("\n==============================")
+        print(f" Edit Server: {name}")
+        print("==============================")
+        print(f"Type: {server['type']}")
+        print(f"Version: {server['version']}")
+        print("1. Server Settings")
+        print("2. Mods / Plugins")
+        print("3. Server Software")
+        print("4. Save & Exit")
+        print("5. Cancel")
 
-    for key in ["lifesteal", "headsteal"]:
-        server[f"_old_{key}"] = server.get(key, False)
+        choice = input("> ").strip()
 
-    plugins_dir = server_path / "plugins"
+        # SERVER SETTINGS
+        if choice == "1":
+            print("\n--- Server Settings ---")
+            print("1. Change Difficulty")
+            print("2. Change Render Distance")
+            print("3. Toggle Hardcore")
+            print("4. Back")
 
-    # =========================
-    # EDIT MENU
-    # =========================
-    print("\n--- Edit Server ---")
-    print("1. Change server software (Paper / Vanilla / Fabric)")
-    print("2. Change Minecraft version")
-    print("3. Change difficulty")
-    print("4. Toggle Lifesteal")
-    print("5. Toggle Headsteal")
-    print("6. Save & Exit")
-    print("7. Cancel")
+            s = input("> ").strip()
 
-    choice = input("Choose option: ").strip()
+            if s == "1":
+                server["difficulty"] = ask_difficulty()
+            elif s == "2":
+                server["render_distance"] = ask_render_distance()
+            elif s == "3":
+                server["hardcore"] = not server.get("hardcore", False)
+                print(f"Hardcore: {server['hardcore']}")
 
-    # =========================
-    # 1️⃣ CHANGE SERVER SOFTWARE
-    # =========================
-    if choice == "1":
-        print("\nSelect server software:")
-        print("1. Paper")
-        print("2. Vanilla")
-        print("3. Fabric")
+        # MODS / PLUGINS
+        elif choice == "2":
+            if server["type"] == "paper":
+                manage_paper_plugins(name, server["version"])
+            elif server["type"] == "fabric":
+                manage_fabric_mods(name, server["version"])
+            else:
+                print("⚠ Vanilla does not support mods/plugins")
 
-        s = input("Choice: ").strip()
+        # SERVER SOFTWARE
+        elif choice == "3":
+            print("\n--- Server Software ---")
+            print("1. Change Minecraft Version")
+            print("2. Back")
+            s = input("> ").strip()
+            if s == "1":
+                server["version"] = input("Enter new version: ").strip()
 
-        if s == "1":
-            server["jar_type"] = "paper"
-        elif s == "2":
-            server["jar_type"] = "vanilla"
-        elif s == "3":
-            server["jar_type"] = "fabric"
-        else:
-            print("❌ Invalid choice")
+        # SAVE
+        elif choice == "4":
+            save_data(data)
+            print("✔ Changes saved")
             return
 
-        print(f"✔ Selected {server['jar_type'].capitalize()}")
-
-    # =========================
-    # 2️⃣ CHANGE VERSION
-    # =========================
-    elif choice == "2":
-        server["version"] = input(
-            f"Enter version (current {server['version']}): "
-        ).strip()
-
-    # =========================
-    # 3️⃣ CHANGE DIFFICULTY
-    # =========================
-    elif choice == "3":
-        print("\nSelect difficulty:")
-        print("1. peaceful")
-        print("2. easy")
-        print("3. normal")
-        print("4. hard")
-        print("5. hardcore")
-
-        d = input("Choice: ").strip()
-        diff_map = {
-            "1": "peaceful",
-            "2": "easy",
-            "3": "normal",
-            "4": "hard",
-            "5": "hardcore"
-        }
-
-        if d not in diff_map:
-            print("❌ Invalid difficulty")
+        # CANCEL
+        elif choice == "5":
+            print("❌ Edit cancelled")
             return
 
-        server["difficulty"] = diff_map[d]
-
-    # =========================
-    # 4️⃣ TOGGLE LIFESTEAL
-    # =========================
-    elif choice == "4":
-        server["lifesteal"] = not server.get("lifesteal", False)
-        print(f"Lifesteal set to {server['lifesteal']}")
-
-    # =========================
-    # 5️⃣ TOGGLE HEADSTEAL
-    # =========================
-    elif choice == "5":
-        server["headsteal"] = not server.get("headsteal", False)
-        print(f"Headsteal set to {server['headsteal']}")
-
-    # =========================
-    # SAVE & APPLY
-    # =========================
-    elif choice == "6":
-
-        # -------------------------
-        # RE-DOWNLOAD JAR IF NEEDED
-        # -------------------------
-        if (
-            server["jar_type"] != old_jar_type
-            or server["version"] != old_version
-        ):
-            print("🔁 Re-downloading server jar...")
-
-            try:
-                if server["jar_type"] == "paper":
-                    download_paper(server["version"], server_path)
-                elif server["jar_type"] == "vanilla":
-                    download_vanilla(server["version"], server_path)
-                elif server["jar_type"] == "fabric":
-                    download_fabric(server["version"], server_path)
-
-                print("✔ Server software updated")
-
-            except Exception as e:
-                print(f"❌ Failed to update server jar: {e}")
-                return
-
-        # -------------------------
-        # APPLY LIFESTEAL / HEADSTEAL (REAL)
-        # -------------------------
-        if server["jar_type"] == "paper":
-            handle_lifesteal(server_name, server.get("lifesteal", False))
-            handle_headsteal(server_name, server.get("headsteal", False))
-        else:
-            # Auto-disable if not Paper
-            server["lifesteal"] = False
-            server["headsteal"] = False
-
-
-        # -------------------------
-        # SAVE CONFIG
-        # -------------------------
-        with open(config_path, "w") as f:
-            json.dump(server, f, indent=4)
-
-        # Cleanup temp keys
-        server.pop("_old_lifesteal", None)
-        server.pop("_old_headsteal", None)
-
-
-        print("✔ Server updated successfully")
-        return
-
-    # =========================
-    # CANCEL
-    # =========================
-    elif choice == "7":
-        print("❌ Edit cancelled")
-        return
-
-    else:
-        print("❌ Invalid option")
 
 
 # -------------------- Server Management --------------------
