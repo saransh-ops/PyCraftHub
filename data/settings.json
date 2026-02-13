@@ -1,0 +1,14 @@
+{
+    "theme": "cyan",
+    "server_directory": "servers",
+    "notifications_enabled": true,
+    "discord_webhook": "",
+    "auto_backup": false,
+    "backup_interval": "daily",
+    "playit_enabled": false,
+    "playit_secret": "",
+    "auto_update_check": true,
+    "show_splash": true,
+    "default_ram": "2G",
+    "default_difficulty": "normal"
+}

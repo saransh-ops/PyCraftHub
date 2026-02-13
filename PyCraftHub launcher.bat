@@ -1,39 +1,76 @@
 @echo off
-title PyCraftHub
+title PyCraftHub Launcher
+color 0B
 
-:: -----------------------------
-:: CHECK PYTHON
-:: -----------------------------
+echo.
+echo ========================================
+echo     PyCraftHub Launcher
+echo ========================================
+echo.
+
+REM Check if Python is installed
+echo Checking Python...
 python --version >nul 2>&1
 if errorlevel 1 (
-    echo ❌ Python is not installed!
-    echo Download Python from https://www.python.org
+    color 0C
+    echo ERROR: Python is not installed!
+    echo.
+    echo Download Python from: https://www.python.org
+    echo.
     pause
-    exit
+    exit /b 1
 )
+echo Python found!
+echo.
 
-:: -----------------------------
-:: FIRST-TIME SETUP CHECK
-:: -----------------------------
-if exist .setup_done goto RUN_APP
+REM Create directories if they don't exist
+echo Setting up directories...
+if not exist "servers" mkdir servers
+if not exist "data" mkdir data
+echo Done!
+echo.
 
-echo 🔧 First-time setup detected...
-echo 📦 Installing dependencies...
+REM Check if first time setup
+if exist .setup_done goto skip_install
 
-python -m pip install -r requirements.txt
+echo First time setup - Installing dependencies...
+echo.
+python -m pip install requests psutil colorama --break-system-packages
+echo.
+
 if errorlevel 1 (
-    echo ❌ Failed to install dependencies
-    pause
-    exit
+    echo.
+    echo WARNING: Installation had issues, trying without flag...
+    python -m pip install requests psutil colorama
 )
 
-echo ✔ Setup completed
-echo done > .setup_done
+echo Setup complete!
+echo. > .setup_done
+echo.
 
-:: -----------------------------
-:: RUN PYCRAFTHUB
-:: -----------------------------
-:RUN_APP
-echo 🚀 Launching PyCraftHub...
+:skip_install
+echo Starting PyCraftHub...
+echo.
+echo ========================================
+echo.
+
+REM Run the main program
 python main.py
+
+REM Check if program crashed
+if errorlevel 1 (
+    color 0C
+    echo.
+    echo ========================================
+    echo ERROR: PyCraftHub crashed!
+    echo ========================================
+    echo.
+    echo Troubleshooting:
+    echo 1. Delete .setup_done and run again
+    echo 2. Make sure main.py exists
+    echo 3. Check error message above
+    echo.
+)
+
+echo.
 pause
