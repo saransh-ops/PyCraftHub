@@ -1,377 +1,143 @@
-═══════════════════════════════════════════════════════════════════════
-                         PyCraftHub - Changelog
-═══════════════════════════════════════════════════════════════════════
+PyCraftHub - Version History
+=============================
 
-Version 3.0.0 - "The Beauty Update"
-====================================
-Release Date: February 2026
-Release Type: MAJOR UPDATE
+Version 3.0.0
+=============
+Release: February 2026
 
-🎨 VISUAL REVOLUTION
---------------------
-✨ Complete UI Overhaul
-   • Beautiful colored CLI interface with box-drawing characters
-   • 6 customizable color themes (Cyan, Green, Blue, Magenta, Red, Yellow)
-   • Professional-looking menus with icons and emojis
-   • Live color-coded status indicators (🟢 Running / ⚪ Stopped)
-   • Gorgeous server cards showing all details at a glance
-   • Smooth animations and progress feedback
-
-📊 Health Monitor v3.0
-   • Stunning real-time performance dashboard
-   • Visual progress bars with color coding (Green/Yellow/Red)
-   • Per-core CPU usage display
-   • Sparkline trend graphs (▁▂▃▄▅▆▇█)
-   • RAM usage with GB display
-   • Disk and network statistics
-   • Auto-closes when server stops
-   • Session summaries with uptime tracking
-
-🎯 Interactive Server Management
-   • Quick action shortcuts ([S]tart, [X]Stop, [R]estart, [E]dit, [D]elete)
-   • Dedicated server management hub
-   • Real-time statistics (Total servers, Running count)
-   • Enhanced server cards with online-mode indicator
-   • Keyboard-driven navigation
-
-
-🚀 MAJOR FEATURES
------------------
-🔨 New Server Types
-   • Purpur support - High-performance Paper fork with extra features
-   • Forge support - Popular mod loader for massive modpacks
-   • Total 5 server types now supported (Paper, Purpur, Vanilla, Fabric, Forge)
-
-🤖 Forge Auto-Installer
-   • Automatically runs Forge installer (no manual steps!)
-   • Shows installation progress in real-time
-   • Creates run.bat automatically
-   • 2-5 minute one-time setup
-   • Improved process detection for Forge servers
-
-🔔 Discord Notifications
-   • Rich embed notifications sent to Discord webhooks
-   • Server start alerts (🟢 Green embed)
-   • Server stop alerts (⚪ Yellow embed)
-   • New server creation (🆕 Purple embed)
-   • Server deletion warnings (🗑️ Red embed)
-   • Configurable enable/disable
-   • Test notification feature
-
-⚙️ Complete Settings System
-   • Persistent configuration storage (data/settings.json)
-   • Color theme customization (6 themes)
-   • Custom server directory paths
-   • Notification preferences (Discord webhooks)
-   • Playit.gg integration settings
-   • Auto-backup configuration (daily/weekly/manual)
-   • Default server settings (RAM, difficulty)
-   • Reset to defaults option
-
-🌍 Advanced World Setup
-   • Three-option world setup wizard:
-     - Import existing world from singleplayer/other servers
-     - Set custom seed for world generation
-     - Random seed (default Minecraft behavior)
-   • World type selection:
-     - Normal (standard terrain)
-     - Flat (superflat for creative)
-     - Amplified (extreme terrain)
-     - Large Biomes (massive biome sizes)
-
-🔓 Cracked Player Support
-   • Toggle online-mode for non-premium players
-   • Available during server creation
-   • Can be changed anytime via Edit Server
-   • Security warnings displayed
-   • Works with all server types (except Vanilla)
-
-
-🛠️ SERVER MANAGEMENT IMPROVEMENTS
-----------------------------------
-✅ Enhanced Start/Stop System
-   • Multi-method process detection (5 different methods)
-   • Forge-specific process handling
-   • Graceful shutdown (3-stage: Watcher → Terminate → Force Kill)
-   • Auto-closing helper windows
-   • Better PID tracking and fallback search
-   • Retry mechanism (5 attempts with 2s delays)
-
-✅ Interactive Server Console
-   • Type commands directly in server window
-   • Server window stays open with pause
-   • Health monitor auto-closes
-   • Watcher auto-closes
-   • Clean workflow
-
-✅ Improved Status Detection
-   • Real-time server status checking
-   • Multiple detection methods (jar name, working directory, process tree)
-   • Forge compatibility
-   • Accurate stopped/running indicators
-
-✅ Better Error Handling
-   • Clear error messages with solutions
-   • Troubleshooting hints
-   • Automatic fallback mechanisms
-
-
-📦 MODS & PLUGINS ENHANCEMENTS
-------------------------------
-✅ Purpur Plugin Support
-   • Same plugin ecosystem as Paper
-   • Recommended Purpur plugins installer
-   • Full Spigot/Bukkit API compatibility
-
-✅ Forge Mod Support
-   • Recommended Forge mods (JEI, Create, Biomes O' Plenty, etc.)
-   • Modrinth integration for automatic downloads
-   • Version-compatible mod selection
-   • Dependency handling
-
-✅ Enhanced Search & Install
-   • Better compatibility checking
-   • Improved error messages
-   • Faster download speeds
-   • Cleaner installation workflow
-
-
-📖 DOCUMENTATION & HELP
-------------------------
-✅ Built-in Documentation
-   • Complete quick start guide
-   • Server type comparison
-   • Mod/plugin installation tutorials
-   • World configuration help
-   • Advanced features explained
-   • Troubleshooting section
-   • Keyboard shortcuts reference
-
-✅ About Page
-   • Version information
-   • Feature list
-   • What's new section
-   • Credits and thanks
-   • GitHub link
-
-✅ Server Tools Menu
-   • Performance monitor (placeholder for v3.1)
-   • Backup system (placeholder for v3.1)
-   • Restore from backup (placeholder for v3.1)
-   • Cache/log cleanup (placeholder for v3.1)
-   • Server export/import (placeholder for v3.1)
-
-
-🐛 BUG FIXES
+New Features
 ------------
-✅ Critical Fixes
-   • Fixed Forge servers not starting (server.jar not found)
-   • Fixed Forge servers not stopping (process detection)
-   • Fixed health monitor not launching
-   • Fixed server status showing incorrect state
-   • Fixed watcher not detecting Forge processes
-   • Fixed colorama import error (removed non-existent Colorama class)
+- Purpur server type support
+- Forge server type support
+- Colored command-line interface with 6 themes
+- Real-time performance monitoring dashboard
+- Discord webhook notifications
+- Persistent settings system
+- Advanced world configuration (import, seeds, world types)
+- Online-mode toggle support
+- Automatic Forge installer
+- Built-in documentation system
 
-✅ Server Management
-   • Fixed ASCII art (now correctly shows "PyCraftHub" not "PyCraftH")
-   • Fixed PID detection for all server types
-   • Fixed graceful shutdown timeout issues
-   • Fixed running.txt tracking
+Interface Improvements
+---------------------
+- Redesigned menu system with color coding
+- Server status cards with live indicators
+- Interactive server management hub
+- Quick action shortcuts
+- Progress bars and visual feedback
+- Statistics display
 
-✅ Installation & Setup
-   • Fixed PyCraftHubLauncher.bat crash issues
-   • Fixed requirements.txt (removed tkinter typo, added colorama)
-   • Fixed --break-system-packages flag handling
-   • Improved first-run setup flow
-
-
-📂 CODE & STRUCTURE
--------------------
-✅ Modular Architecture
-   • settings_module.py - Settings management
-   • notifications.py - Discord integration
-   • Improved separation of concerns
-   • Cleaner function organization
-
-✅ Enhanced Error Handling
-   • Try-catch blocks for all critical operations
-   • Fallback mechanisms
-   • User-friendly error messages
-   • Debug information when needed
-
-✅ Better Process Management
-   • Multiple PID detection methods
-   • Forge-aware process handling
-   • Graceful vs force kill options
-   • Reliable cleanup
-
-
-🎯 USER EXPERIENCE
-------------------
-✅ Launcher Improvements
-   • Auto-installs dependencies on first run
-   • Shows installation progress
-   • Colored output
-   • Better error messages
-   • Update checker
-
-✅ Menu Flow
-   • Logical menu organization
-   • Breadcrumb navigation
-   • Press ENTER to continue prompts
-   • Clear option labels
-
-✅ Visual Feedback
-   • Color-coded success/error messages
-   • Progress indicators
-   • Loading animations
-   • Status updates
-
-✅ Performance
-   • Faster server detection
-   • Quicker startup times
-   • Optimized health monitoring
-   • Reduced resource usage
-
-
-⚙️ TECHNICAL IMPROVEMENTS
---------------------------
-✅ Dependencies
-   • Added: colorama (for colors)
-   • Updated: requests, psutil
-   • Better compatibility
-
-✅ File Structure
-   • Persistent settings storage
-   • Better JSON handling
-   • Cleaner directory organization
-
-✅ Cross-Compatibility
-   • Windows 7/10/11 support
-   • Python 3.10+ compatibility
-   • Java 17+ support
-
-
-📌 KNOWN LIMITATIONS
---------------------
-⚠️ Platform
-   • Windows-only (Linux/Mac support planned for v4.0)
-   • Requires GUI-less operation (CLI by design)
-
-⚠️ Networking
-   • Local hosting only (use Playit.gg for external access)
-   • Manual firewall configuration may be needed
-
-⚠️ Features
-   • No automatic backups yet (coming in v3.1)
-   • No web interface (coming in v3.1)
-   • Server console must be closed manually
-
-
-🔮 COMING IN V3.1
+Server Management
 -----------------
-💾 Automatic Backups
-   • Daily/weekly scheduled backups
-   • One-click restore
-   • Compressed backup storage
+- Enhanced start/stop system with multiple detection methods
+- Graceful shutdown with fallback mechanisms
+- Improved process tracking for all server types
+- Auto-closing helper windows
+- Better error handling and messages
 
-📊 Extended Analytics
-   • Player login history
-   • Performance trends over time
-   • Uptime percentages
-   • Export reports
+Monitoring
+----------
+- Real-time CPU and RAM statistics
+- Per-core CPU usage display
+- Usage trend indicators
+- Disk and network statistics
+- Color-coded status levels
+- Session summaries
 
-🌐 Advanced Networking
-   • UPnP auto port forwarding
-   • Better Playit.gg integration
-   • ngrok tunnel support
+Notifications
+------------
+- Discord webhook integration
+- Server start/stop alerts
+- Server creation notices
+- Configurable notification settings
+- Rich embed formatting
 
-🔧 Server Tools
-   • Cache/log cleanup
-   • Server export/import packages
-   • Performance optimization wizard
+Settings
+--------
+- Theme customization (6 color options)
+- Custom server directories
+- Notification preferences
+- Network configuration
+- Default server settings
+- Persistent storage
+
+World Configuration
+------------------
+- Import existing worlds
+- Custom seed input
+- World type selection (Normal, Flat, Amplified, Large Biomes)
+- Flexible world setup options
+
+Bug Fixes
+---------
+- Fixed Forge server startup issues
+- Fixed process detection for all server types
+- Fixed health monitor launching
+- Fixed server status accuracy
+- Fixed auto-close functionality
+- Corrected dependency imports
+- Improved launcher reliability
+
+Technical Updates
+----------------
+- Added settings_module.py for configuration management
+- Added notifications.py for Discord integration
+- Enhanced error handling throughout
+- Better process management
+- Cleaner code organization
+- Improved file structure
+
+Documentation
+------------
+- Added comprehensive built-in help
+- Server type comparison guide
+- Installation tutorials
+- Troubleshooting section
+- Feature explanations
 
 
-📝 MIGRATION FROM V2.0
-----------------------
-✅ Fully Compatible
-   • All v2.0 servers work in v3.0
-   • Settings automatically migrate
-   • No manual configuration needed
-
-✅ New Features Available
-   • Update themes in Settings
-   • Configure Discord notifications
-   • Try new server types (Purpur, Forge)
-
-
-🙏 CREDITS & THANKS
--------------------
-Created with ❤️ by Saransh
-
-Special Thanks:
-   • Minecraft community for server software
-   • PaperMC team for Paper
-   • Purpur team for Purpur
-   • Forge team for Forge
-   • Fabric team for Fabric
-   • Modrinth for mod/plugin API
-   • All beta testers and contributors
-   • Discord community for feedback
-
-
-═══════════════════════════════════════════════════════════════════════
-
-Version 2.0.0 - "The Foundation Update"
-========================================
+Version 2.0.0
+=============
 Release: v2 Major Update
 
-🔥 Major Features
+Major Features
+-------------
+- Fabric server support
+- Modrinth API integration
+- Interactive mod/plugin installer
+- Dependency-aware installation
+- Automatic detection of installed content
+- Fabric API installer
+- Recommended mods and plugins support
+
+Server Management
 -----------------
-- Added full Fabric server support alongside Paper and Vanilla
-- Integrated Modrinth API for version-aware mod & plugin downloads
-- Introduced interactive mod/plugin installer with multi-select support
-- Added dependency-aware installation (prevents duplicate installs)
-- Automatic detection of installed mods/plugins
-- Fabric API installer with smart dependency skipping
-- Support for recommended Fabric mods (Sodium, Lithium, FerriteCore, Simple Voice Chat)
-- Support for recommended Paper plugins (ViaVersion, ViaBackwards, ViaRewind, EssentialsX, SkinRestorer, Chunky)
+- Improved server creation workflow
+- Fixed server configuration saving
+- Better port allocation
+- Folder initialization improvements
 
-🚀 Server Management Improvements
----------------------------------
-- Improved server creation workflow with clearer prompts
-- Fixed servers not saving correctly to servers.json
-- Reliable port allocation and persistence
-- Hardcore mode support with proper difficulty handling
-- Better folder initialization for plugins and mods
-- Fabric servers now correctly create and manage /mods directory
+Installation System
+------------------
+- Version-based downloads
+- Loader-aware installs
+- Compatibility checking
+- Better error messages
 
-🧠 Smart Install System
------------------------
-- Version-based downloads (no more incompatible jars)
-- Loader-aware installs (Paper vs Fabric handled automatically)
-- Prevents installing Fabric mods on Paper servers and vice versa
-- Avoids re-downloading already installed dependencies
-- Cleaner error messages when no compatible version exists
+Bug Fixes
+---------
+- Fixed server config issues
+- Fixed download errors
+- Fixed installation failures
+- Improved error handling
 
-🛠 Bug Fixes
-------------
-- Fixed "server config not found" issues
-- Fixed NameError and UnboundLocalError crashes
-- Fixed corrupted JAR downloads caused by wrong endpoints
-- Fixed recommended plugins not installing on Paper servers
-- Fixed missing server entries in servers.json
-- Fixed Fabric server jar download failures
-- Fixed syntax errors and invalid config writes
+Code Improvements
+----------------
+- Refactored server_manager.py
+- Unified download logic
+- Better code organization
+- Enhanced error handling
 
-📂 Code & Structure
--------------------
-- Refactored server_manager.py for clarity and stability
-- Unified mod/plugin download logic via Modrinth
-- Improved error handling and logging
-- Cleaned up duplicate download functions
-- Better separation of Paper and Fabric logic paths
 
-═══════════════════════════════════════════════════════════════════════
-                              End of Changelog
-═══════════════════════════════════════════════════════════════════════
+End of Changelog
+================
