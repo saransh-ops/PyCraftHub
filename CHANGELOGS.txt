@@ -1,7 +1,329 @@
-PyCraftHub - Changelog
-=====================
+═══════════════════════════════════════════════════════════════════════
+                         PyCraftHub - Changelog
+═══════════════════════════════════════════════════════════════════════
 
-Version 2.0.0
+Version 3.0.0 - "The Beauty Update"
+====================================
+Release Date: February 2026
+Release Type: MAJOR UPDATE
+
+🎨 VISUAL REVOLUTION
+--------------------
+✨ Complete UI Overhaul
+   • Beautiful colored CLI interface with box-drawing characters
+   • 6 customizable color themes (Cyan, Green, Blue, Magenta, Red, Yellow)
+   • Professional-looking menus with icons and emojis
+   • Live color-coded status indicators (🟢 Running / ⚪ Stopped)
+   • Gorgeous server cards showing all details at a glance
+   • Smooth animations and progress feedback
+
+📊 Health Monitor v3.0
+   • Stunning real-time performance dashboard
+   • Visual progress bars with color coding (Green/Yellow/Red)
+   • Per-core CPU usage display
+   • Sparkline trend graphs (▁▂▃▄▅▆▇█)
+   • RAM usage with GB display
+   • Disk and network statistics
+   • Auto-closes when server stops
+   • Session summaries with uptime tracking
+
+🎯 Interactive Server Management
+   • Quick action shortcuts ([S]tart, [X]Stop, [R]estart, [E]dit, [D]elete)
+   • Dedicated server management hub
+   • Real-time statistics (Total servers, Running count)
+   • Enhanced server cards with online-mode indicator
+   • Keyboard-driven navigation
+
+
+🚀 MAJOR FEATURES
+-----------------
+🔨 New Server Types
+   • Purpur support - High-performance Paper fork with extra features
+   • Forge support - Popular mod loader for massive modpacks
+   • Total 5 server types now supported (Paper, Purpur, Vanilla, Fabric, Forge)
+
+🤖 Forge Auto-Installer
+   • Automatically runs Forge installer (no manual steps!)
+   • Shows installation progress in real-time
+   • Creates run.bat automatically
+   • 2-5 minute one-time setup
+   • Improved process detection for Forge servers
+
+🔔 Discord Notifications
+   • Rich embed notifications sent to Discord webhooks
+   • Server start alerts (🟢 Green embed)
+   • Server stop alerts (⚪ Yellow embed)
+   • New server creation (🆕 Purple embed)
+   • Server deletion warnings (🗑️ Red embed)
+   • Configurable enable/disable
+   • Test notification feature
+
+⚙️ Complete Settings System
+   • Persistent configuration storage (data/settings.json)
+   • Color theme customization (6 themes)
+   • Custom server directory paths
+   • Notification preferences (Discord webhooks)
+   • Playit.gg integration settings
+   • Auto-backup configuration (daily/weekly/manual)
+   • Default server settings (RAM, difficulty)
+   • Reset to defaults option
+
+🌍 Advanced World Setup
+   • Three-option world setup wizard:
+     - Import existing world from singleplayer/other servers
+     - Set custom seed for world generation
+     - Random seed (default Minecraft behavior)
+   • World type selection:
+     - Normal (standard terrain)
+     - Flat (superflat for creative)
+     - Amplified (extreme terrain)
+     - Large Biomes (massive biome sizes)
+
+🔓 Cracked Player Support
+   • Toggle online-mode for non-premium players
+   • Available during server creation
+   • Can be changed anytime via Edit Server
+   • Security warnings displayed
+   • Works with all server types (except Vanilla)
+
+
+🛠️ SERVER MANAGEMENT IMPROVEMENTS
+----------------------------------
+✅ Enhanced Start/Stop System
+   • Multi-method process detection (5 different methods)
+   • Forge-specific process handling
+   • Graceful shutdown (3-stage: Watcher → Terminate → Force Kill)
+   • Auto-closing helper windows
+   • Better PID tracking and fallback search
+   • Retry mechanism (5 attempts with 2s delays)
+
+✅ Interactive Server Console
+   • Type commands directly in server window
+   • Server window stays open with pause
+   • Health monitor auto-closes
+   • Watcher auto-closes
+   • Clean workflow
+
+✅ Improved Status Detection
+   • Real-time server status checking
+   • Multiple detection methods (jar name, working directory, process tree)
+   • Forge compatibility
+   • Accurate stopped/running indicators
+
+✅ Better Error Handling
+   • Clear error messages with solutions
+   • Troubleshooting hints
+   • Automatic fallback mechanisms
+
+
+📦 MODS & PLUGINS ENHANCEMENTS
+------------------------------
+✅ Purpur Plugin Support
+   • Same plugin ecosystem as Paper
+   • Recommended Purpur plugins installer
+   • Full Spigot/Bukkit API compatibility
+
+✅ Forge Mod Support
+   • Recommended Forge mods (JEI, Create, Biomes O' Plenty, etc.)
+   • Modrinth integration for automatic downloads
+   • Version-compatible mod selection
+   • Dependency handling
+
+✅ Enhanced Search & Install
+   • Better compatibility checking
+   • Improved error messages
+   • Faster download speeds
+   • Cleaner installation workflow
+
+
+📖 DOCUMENTATION & HELP
+------------------------
+✅ Built-in Documentation
+   • Complete quick start guide
+   • Server type comparison
+   • Mod/plugin installation tutorials
+   • World configuration help
+   • Advanced features explained
+   • Troubleshooting section
+   • Keyboard shortcuts reference
+
+✅ About Page
+   • Version information
+   • Feature list
+   • What's new section
+   • Credits and thanks
+   • GitHub link
+
+✅ Server Tools Menu
+   • Performance monitor (placeholder for v3.1)
+   • Backup system (placeholder for v3.1)
+   • Restore from backup (placeholder for v3.1)
+   • Cache/log cleanup (placeholder for v3.1)
+   • Server export/import (placeholder for v3.1)
+
+
+🐛 BUG FIXES
+------------
+✅ Critical Fixes
+   • Fixed Forge servers not starting (server.jar not found)
+   • Fixed Forge servers not stopping (process detection)
+   • Fixed health monitor not launching
+   • Fixed server status showing incorrect state
+   • Fixed watcher not detecting Forge processes
+   • Fixed colorama import error (removed non-existent Colorama class)
+
+✅ Server Management
+   • Fixed ASCII art (now correctly shows "PyCraftHub" not "PyCraftH")
+   • Fixed PID detection for all server types
+   • Fixed graceful shutdown timeout issues
+   • Fixed running.txt tracking
+
+✅ Installation & Setup
+   • Fixed PyCraftHubLauncher.bat crash issues
+   • Fixed requirements.txt (removed tkinter typo, added colorama)
+   • Fixed --break-system-packages flag handling
+   • Improved first-run setup flow
+
+
+📂 CODE & STRUCTURE
+-------------------
+✅ Modular Architecture
+   • settings_module.py - Settings management
+   • notifications.py - Discord integration
+   • Improved separation of concerns
+   • Cleaner function organization
+
+✅ Enhanced Error Handling
+   • Try-catch blocks for all critical operations
+   • Fallback mechanisms
+   • User-friendly error messages
+   • Debug information when needed
+
+✅ Better Process Management
+   • Multiple PID detection methods
+   • Forge-aware process handling
+   • Graceful vs force kill options
+   • Reliable cleanup
+
+
+🎯 USER EXPERIENCE
+------------------
+✅ Launcher Improvements
+   • Auto-installs dependencies on first run
+   • Shows installation progress
+   • Colored output
+   • Better error messages
+   • Update checker
+
+✅ Menu Flow
+   • Logical menu organization
+   • Breadcrumb navigation
+   • Press ENTER to continue prompts
+   • Clear option labels
+
+✅ Visual Feedback
+   • Color-coded success/error messages
+   • Progress indicators
+   • Loading animations
+   • Status updates
+
+✅ Performance
+   • Faster server detection
+   • Quicker startup times
+   • Optimized health monitoring
+   • Reduced resource usage
+
+
+⚙️ TECHNICAL IMPROVEMENTS
+--------------------------
+✅ Dependencies
+   • Added: colorama (for colors)
+   • Updated: requests, psutil
+   • Better compatibility
+
+✅ File Structure
+   • Persistent settings storage
+   • Better JSON handling
+   • Cleaner directory organization
+
+✅ Cross-Compatibility
+   • Windows 7/10/11 support
+   • Python 3.10+ compatibility
+   • Java 17+ support
+
+
+📌 KNOWN LIMITATIONS
+--------------------
+⚠️ Platform
+   • Windows-only (Linux/Mac support planned for v4.0)
+   • Requires GUI-less operation (CLI by design)
+
+⚠️ Networking
+   • Local hosting only (use Playit.gg for external access)
+   • Manual firewall configuration may be needed
+
+⚠️ Features
+   • No automatic backups yet (coming in v3.1)
+   • No web interface (coming in v3.1)
+   • Server console must be closed manually
+
+
+🔮 COMING IN V3.1
+-----------------
+💾 Automatic Backups
+   • Daily/weekly scheduled backups
+   • One-click restore
+   • Compressed backup storage
+
+📊 Extended Analytics
+   • Player login history
+   • Performance trends over time
+   • Uptime percentages
+   • Export reports
+
+🌐 Advanced Networking
+   • UPnP auto port forwarding
+   • Better Playit.gg integration
+   • ngrok tunnel support
+
+🔧 Server Tools
+   • Cache/log cleanup
+   • Server export/import packages
+   • Performance optimization wizard
+
+
+📝 MIGRATION FROM V2.0
+----------------------
+✅ Fully Compatible
+   • All v2.0 servers work in v3.0
+   • Settings automatically migrate
+   • No manual configuration needed
+
+✅ New Features Available
+   • Update themes in Settings
+   • Configure Discord notifications
+   • Try new server types (Purpur, Forge)
+
+
+🙏 CREDITS & THANKS
+-------------------
+Created with ❤️ by Saransh
+
+Special Thanks:
+   • Minecraft community for server software
+   • PaperMC team for Paper
+   • Purpur team for Purpur
+   • Forge team for Forge
+   • Fabric team for Fabric
+   • Modrinth for mod/plugin API
+   • All beta testers and contributors
+   • Discord community for feedback
+
+
+═══════════════════════════════════════════════════════════════════════
+
+Version 2.0.0 - "The Foundation Update"
+========================================
 Release: v2 Major Update
 
 🔥 Major Features
@@ -50,17 +372,6 @@ Release: v2 Major Update
 - Cleaned up duplicate download functions
 - Better separation of Paper and Fabric logic paths
 
-⚠ Known Limitations
--------------------
-- Fabric Geyser support not included (user-managed if needed)
-- Server stop control still handled via in-console `stop` command
-- No GUI (CLI-only by design)
-
-📌 Notes
---------
-- Java 17+ required for newer Minecraft versions
-- Internet connection required for server and mod downloads
-- Playit.gg still recommended for external access
-
-──────────────────────────────────
-End of Changelog
+═══════════════════════════════════════════════════════════════════════
+                              End of Changelog
+═══════════════════════════════════════════════════════════════════════
